@@ -1,5 +1,3 @@
-# https://github.com/amoscaritola
-
 import os
 import csv
 import argparse
@@ -25,20 +23,29 @@ def getListOfFiles(dirName):
 
 def getVidData(list_name):
 	'''For list of files, returns list of lists containing filename and video resolution'''
-	movie_list = [['Movie Title', 'Video Resolution']]
+	movie_list = [['Movie Title', 'Video Resolution', 'Container', 'Format']]
 	count = 0
 	for video in list_name:
 		count += 1
+		container = ""
+		resolution = ""
+		vid_name = ""
+		vformat = ""
 		print("Checking file {}/{}".format(count, len(list_name)), end='\r')
 		media_info = MediaInfo.parse(video)
 		for track in media_info.tracks:
+			if track.track_type == 'General':
+				container = track.format
 			if track.track_type == 'Video':
 				atpos = video.rfind("/")
+				vid_name = video[atpos+1:]
 				resolution = "{}x{}".format(track.width, track.height)
-				movie_list.append([video[atpos+1:], resolution])
-	print("{} video(s) added to list".format(len(movie_list)))
+				vformat = track.format
+		if vid_name != "":
+			movie_list.append([vid_name, resolution, container, vformat])
+	print("{} video(s) added to list".format(len(movie_list)-1))
 	return movie_list
-	
+
 def write_to_csv(data):
 	'''Write the data to a csv file'''
 	csv_output = args.csv_path + "/" + "movie_list.csv"
@@ -55,7 +62,7 @@ def main():
 		print("Creating list of files in directories and sub-directories")
 		file_list = getListOfFiles(args.dir_path)
 		print("Found {} files".format(len(file_list)))
-		print("Checking the resolution of video files")
+		print("Checking the video files")
 		data_list = getVidData(file_list)
 		write_to_csv(data_list)
 		print('Csv file created: {}/movie_list.csv'.format(args.csv_path))
