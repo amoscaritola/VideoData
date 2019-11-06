@@ -54,30 +54,32 @@ def write_to_csv(data):
 		writer.writerows(data)	
 	csvFile.close()
 	
-def main():
-	if not args.csv_path:
+def main():	
+	if args.csv_path == None:
 		print("You must enter a destination for the csv output by using -o")
 		exit()
-	if args.dir_path:
-		print("Creating list of files in directories and sub-directories")
-		file_list = getListOfFiles(args.dir_path)
-		print("Found {} files".format(len(file_list)))
-		print("Checking the video files")
-		data_list = getVidData(file_list)
-		write_to_csv(data_list)
-		print('Csv file created: {}/movie_list.csv'.format(args.csv_path))
-	else:
+	
+	if args.dir_path == None:
 		print("You must enter a directory to search using -i")
+		exit()
+		
+	print("Creating list of files in directories and sub-directories")
+	file_list = getListOfFiles(args.dir_path)
+	print("Found {} files".format(len(file_list)))
+	print("Checking the video files")
+	data_list = getVidData(file_list)
+	write_to_csv(data_list)
+	print('Csv file created: {}/movie_list.csv'.format(args.csv_path))
 
 parser = argparse.ArgumentParser()
 	
 parser.add_argument('-i', '--input', dest='dir_path', 
 	help="Enter the path of the directoty to search")
-
+	
 parser.add_argument('-o', '--output', dest='csv_path', 
 	help="Enter the csv destination")
-
+	
 args = parser.parse_args()
-
+		
 if __name__ == '__main__':
 	main()
