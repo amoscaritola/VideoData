@@ -1,4 +1,4 @@
-# VideoResolution
+# VideoData
 
 Gets a list of all files from directory and sub-directories
 <br>
