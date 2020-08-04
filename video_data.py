@@ -36,13 +36,13 @@ def getVidData(list_name):
 		for track in media_info.tracks:
 			if track.track_type == 'General':
 				container = track.format
+				codec = track.codecs_video
 			if track.track_type == 'Video':
 				atpos = video.rfind("/")
 				vid_name = video[atpos+1:]
 				resolution = "{}x{}".format(track.width, track.height)
-				vformat = track.format
 		if vid_name != "":
-			movie_list.append([vid_name, resolution, container, vformat])
+			movie_list.append([vid_name, resolution, container, codec])
 	print("{} video(s) added to list".format(len(movie_list)-1))
 	return movie_list
 
