@@ -74,7 +74,7 @@ def main():
 parser = argparse.ArgumentParser()
 	
 parser.add_argument('-i', '--input', dest='dir_path', 
-	help="Enter the path of the directoty to search")
+	help="Enter the path of the directory to search")
 	
 parser.add_argument('-o', '--output', dest='csv_path', 
 	help="Enter the csv destination")
